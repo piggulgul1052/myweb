@@ -27,7 +27,6 @@ html {
   overflow-y: scroll;
   height: 100%;
 }
-
 body {
   font-family:'Nanum Gothic', sans-serif;
   background: var(--bg-deep);
@@ -81,9 +80,7 @@ body {
   animation:fade-up 0.8s 0.2s forwards;
 }
 
-/* 한 글자씩 나오는 줄 */
 .char-line { overflow:visible; margin-bottom:2px; }
-
 .char {
   display:inline-block;
   font-family:'Black Han Sans', sans-serif;
@@ -94,7 +91,6 @@ body {
   transition:opacity 0.4s ease, transform 0.4s ease;
 }
 
-/* 뉴런 팝아웃 */
 .neuron-word {
   display:inline-block;
   font-family:'Black Han Sans', sans-serif;
@@ -156,7 +152,6 @@ body {
   80% { top:20px; opacity:0; }
   100%{ top:6px; opacity:0; }
 }
-
 @keyframes fade-up {
   from { opacity:0; transform:translateY(24px); }
   to   { opacity:1; transform:translateY(0); }
@@ -207,6 +202,175 @@ body {
   pointer-events: none;
 }
 .toast.show { opacity: 1; transform: translateY(0); }
+
+/* ── 햄버거 버튼 ── */
+.hamburger {
+  position: fixed;
+  top: 20px; right: 20px;
+  z-index: 200;
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: rgba(200,168,240,0.15);
+  border: 1px solid rgba(200,168,240,0.35);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: background 0.25s, border-color 0.25s;
+}
+.hamburger:hover {
+  background: rgba(200,168,240,0.28);
+  border-color: rgba(200,168,240,0.65);
+}
+.hamburger span {
+  display: block;
+  width: 20px; height: 2px;
+  background: var(--lavender);
+  border-radius: 2px;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1),
+              opacity 0.35s, width 0.35s;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* 드롭다운 */
+.nav-menu {
+  position: fixed;
+  top: 72px; right: 20px;
+  z-index: 199;
+  background: rgba(26,20,40,0.9);
+  border: 1px solid rgba(200,168,240,0.25);
+  border-radius: 18px;
+  backdrop-filter: blur(20px);
+  padding: 10px;
+  min-width: 180px;
+  opacity: 0;
+  transform: translateY(-10px) scale(0.96);
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.4,0,0.2,1),
+              transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.nav-menu.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: all;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: var(--lavender);
+  font-family: 'Jua', sans-serif;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+.nav-item:hover {
+  background: rgba(200,168,240,0.18);
+  color: #fff;
+}
+.nav-icon { font-size: 1.1rem; }
+.nav-divider {
+  height: 1px;
+  background: rgba(200,168,240,0.15);
+  margin: 4px 8px;
+}
+
+/* ── FAQ 오버레이 ── */
+.faq-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(10,8,22,0.65);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.faq-overlay.open { opacity: 1; pointer-events: all; }
+
+.faq-box {
+  background: #1e1630;
+  border: 1px solid rgba(200,168,240,0.3);
+  border-radius: 28px;
+  padding: 40px 36px;
+  max-width: 580px; width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.35s cubic-bezier(0.34,1.3,0.64,1);
+  position: relative;
+}
+.faq-overlay.open .faq-box { transform: translateY(0) scale(1); }
+
+.faq-close {
+  position: absolute;
+  top: 18px; right: 18px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(200,168,240,0.12);
+  border: 1px solid rgba(200,168,240,0.25);
+  color: var(--lavender);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.faq-close:hover { background: rgba(200,168,240,0.25); }
+
+.faq-title {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 1.8rem;
+  color: #fff;
+  margin-bottom: 28px;
+}
+
+.faq-item {
+  border-bottom: 1px solid rgba(200,168,240,0.12);
+  padding: 18px 0;
+}
+.faq-item:last-child { border-bottom: none; }
+
+.faq-q {
+  font-family: 'Jua', sans-serif;
+  font-size: 1rem;
+  color: var(--lilac);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.faq-q .faq-arrow {
+  font-size: 0.75rem;
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+
+.faq-a {
+  font-size: 0.85rem;
+  color: rgba(226,212,248,0.75);
+  line-height: 1.75;
+  margin-top: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, margin-top 0.3s;
+}
+.faq-item.open .faq-a { max-height: 200px; margin-top: 10px; }
+
+/* ── DIVIDER ── */
 .divider {
   width:100%; height:1px;
   background:linear-gradient(90deg,
@@ -217,14 +381,13 @@ body {
   position:relative; z-index:1;
 }
 
-/* ═════════ 섹션 ══════════ */
+/* ══════════ SECTION ══════════ */
 .section {
   position:relative; z-index:1;
   padding: 80px 24px;
   max-width:1100px; margin:0 auto;
 }
 
-/* 섹션 래퍼 - 스냅 걸리는 단위 */
 .snap-section {
   scroll-snap-align: start;
   min-height: 100vh;
@@ -252,7 +415,7 @@ body {
 .section.visible .section-label,
 .section.visible .section-title { opacity:1; transform:translateY(0); }
 
-/* 부원 카드 */
+/* ── 부원 카드 ── */
 .members-placeholder {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -264,13 +427,11 @@ body {
 .section.visible .members-placeholder { opacity: 1; transform: translateY(0); }
 
 @media (orientation: landscape) {
-  .members-placeholder {
-    grid-template-columns: repeat(4, 1fr);
-  }
+  .members-placeholder { grid-template-columns: repeat(4, 1fr); }
 }
 
 .member-card {
-  background: rgba(240, 233, 255, 0.92);
+  background: rgba(240,233,255,0.92);
   border:1px solid rgba(200,168,240,0.4);
   border-radius:22px; padding:30px 22px;
   text-align:center; backdrop-filter:blur(10px);
@@ -279,7 +440,7 @@ body {
 .member-card:hover {
   border-color:rgba(168,100,240,0.7);
   transform:translateY(-7px);
-  background: rgba(230, 218, 255, 0.97);
+  background: rgba(230,218,255,0.97);
 }
 .member-avatar {
   width:70px; height:70px; border-radius:50%;
@@ -291,14 +452,32 @@ body {
 }
 .member-name {
   font-family:'Jua', sans-serif;
-  font-size:1.05rem;
-  color: #1a0e30;
-  margin-bottom:5px;
+  font-size:1.05rem; color:#1a0e30; margin-bottom:5px;
 }
-.member-role { font-size:0.75rem; color: #5b2d99; letter-spacing:0.12em; font-weight:700; }
-.member-desc { font-size:0.78rem; color: #3a2660; margin-top:10px; line-height:1.6; }
+.member-role { font-size:0.75rem; color:#5b2d99; letter-spacing:0.12em; font-weight:700; }
+.member-desc { font-size:0.78rem; color:#3a2660; margin-top:10px; line-height:1.6; }
 
-/* ══════════ CTA ══════════ */
+/* ── 미스터리 카드 ── */
+.mystery-card {
+  border-style: dashed;
+  border-color: rgba(200,168,240,0.4) !important;
+  background: rgba(230,220,255,0.6) !important;
+  animation: mystery-breathe 3s ease-in-out infinite;
+}
+@keyframes mystery-breathe {
+  0%,100% { border-color: rgba(200,168,240,0.3); box-shadow: none; }
+  50%      { border-color: rgba(200,168,240,0.7); box-shadow: 0 0 18px rgba(200,168,240,0.15); }
+}
+.mystery-avatar {
+  background: linear-gradient(135deg, rgba(42,31,69,0.85), rgba(34,26,56,0.85)) !important;
+  border-color: rgba(200,168,240,0.3) !important;
+  overflow: hidden;
+}
+.mystery-name { font-family:'Black Han Sans',sans-serif !important; letter-spacing:0.25em; color:#2a1a50 !important; }
+.mystery-role { color:#6b35b0 !important; font-weight:700; }
+.mystery-desc { color:#3d2468 !important; font-style:italic; }
+
+/* ── CTA ── */
 #cta {
   text-align:center; padding:110px 24px;
   position:relative; z-index:1;
@@ -313,7 +492,6 @@ body {
   transition:opacity 0.8s, transform 0.8s;
 }
 #cta.visible .cta-inner { opacity:1; transform:translateY(0); }
-
 .cta-inner::before {
   content:''; position:absolute;
   top:-70px; right:-70px; width:220px; height:220px;
@@ -326,7 +504,6 @@ body {
   background:radial-gradient(circle, rgba(126,232,196,0.1), transparent 70%);
   border-radius:50%;
 }
-
 .cta-emoji { font-size:2.6rem; margin-bottom:18px; }
 .cta-title {
   font-family:'Black Han Sans', sans-serif;
@@ -334,7 +511,6 @@ body {
   color:var(--white); margin-bottom:12px;
 }
 .cta-sub { color:var(--muted); font-size:0.92rem; margin-bottom:44px; line-height:1.8; }
-
 .cta-buttons { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
 
 .btn {
@@ -353,14 +529,11 @@ body {
 .btn:hover::before { opacity:1; }
 .btn:hover { transform:translateY(-3px) scale(1.03); }
 .btn:active { transform:scale(0.97); }
-
 .btn-insta {
   background:linear-gradient(135deg, #c84b9e, #a855f7);
-  color:#fff;
-  box-shadow:0 8px 28px rgba(168,85,247,0.35);
+  color:#fff; box-shadow:0 8px 28px rgba(168,85,247,0.35);
 }
 .btn-insta:hover { box-shadow:0 14px 36px rgba(168,85,247,0.55); }
-
 .btn-apply {
   background:linear-gradient(135deg, #7ee8c4, #38bdf8);
   color:#1a1428; font-weight:900;
@@ -368,37 +541,7 @@ body {
 }
 .btn-apply:hover { box-shadow:0 14px 36px rgba(126,232,196,0.45); }
 
-/* 미스터리 카드 */
-.mystery-card {
-  border-style: dashed;
-  border-color: rgba(200,168,240,0.4) !important;
-  background: rgba(230, 220, 255, 0.6) !important;
-  animation: mystery-breathe 3s ease-in-out infinite;
-}
-@keyframes mystery-breathe {
-  0%,100% { border-color: rgba(200,168,240,0.3); box-shadow: none; }
-  50%      { border-color: rgba(200,168,240,0.7); box-shadow: 0 0 18px rgba(200,168,240,0.15); }
-}
-.mystery-avatar {
-  background: linear-gradient(135deg, rgba(42,31,69,0.85), rgba(34,26,56,0.85)) !important;
-  border-color: rgba(200,168,240,0.3) !important;
-  overflow: hidden;
-}
-.mystery-name {
-  font-family: 'Black Han Sans', sans-serif !important;
-  letter-spacing: 0.25em;
-  color: #2a1a50 !important;
-}
-.mystery-role {
-  color: #6b35b0 !important;
-  font-weight: 700;
-}
-.mystery-desc {
-  color: #3d2468 !important;
-  font-style: italic;
-}
-
-/* ══════════ 활동 소개 파트>,< ══════════ */
+/* ── 활동 소개 ── */
 .activity-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -407,14 +550,11 @@ body {
   transition: opacity 0.8s 0.3s, transform 0.8s 0.3s;
 }
 .section.visible .activity-grid { opacity: 1; transform: translateY(0); }
-
 .activity-card {
   background: rgba(240,233,255,0.92);
   border: 1px solid rgba(200,168,240,0.35);
-  border-radius: 24px;
-  padding: 32px 28px;
-  position: relative;
-  overflow: hidden;
+  border-radius: 24px; padding: 32px 28px;
+  position: relative; overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 .activity-card:hover {
@@ -422,32 +562,176 @@ body {
   box-shadow: 0 16px 40px rgba(200,168,240,0.25);
 }
 .activity-card::before {
-  content: '';
-  position: absolute;
-  top: -30px; right: -30px;
-  width: 110px; height: 110px;
-  border-radius: 50%;
-  opacity: 0.2;
+  content:''; position:absolute;
+  top:-30px; right:-30px; width:110px; height:110px;
+  border-radius:50%; opacity:0.2;
 }
-.activity-card:nth-child(1)::before { background: radial-gradient(circle, #c8a8f0, transparent); }
-.activity-card:nth-child(2)::before { background: radial-gradient(circle, #89d4f5, transparent); }
-.activity-card:nth-child(3)::before { background: radial-gradient(circle, #7ee8c4, transparent); }
-.activity-card:nth-child(4)::before { background: radial-gradient(circle, #f5c8e8, transparent); }
-.activity-card:nth-child(5)::before { background: radial-gradient(circle, #f5e48a, transparent); }
-.activity-card:nth-child(6)::before { background: radial-gradient(circle, #89d4f5, transparent); }
-
-.activity-icon { font-size: 2.4rem; margin-bottom: 14px; display: block; }
-.activity-title {
-  font-family: 'Jua', sans-serif;
-  font-size: 1.1rem; color: #1a0e30; margin-bottom: 10px;
-}
-.activity-desc { font-size: 0.82rem; color: #3a2660; line-height: 1.75; }
+.activity-card:nth-child(1)::before { background:radial-gradient(circle,#c8a8f0,transparent); }
+.activity-card:nth-child(2)::before { background:radial-gradient(circle,#89d4f5,transparent); }
+.activity-card:nth-child(3)::before { background:radial-gradient(circle,#7ee8c4,transparent); }
+.activity-card:nth-child(4)::before { background:radial-gradient(circle,#f5c8e8,transparent); }
+.activity-card:nth-child(5)::before { background:radial-gradient(circle,#f5e48a,transparent); }
+.activity-card:nth-child(6)::before { background:radial-gradient(circle,#89d4f5,transparent); }
+.activity-icon { font-size:2.4rem; margin-bottom:14px; display:block; }
+.activity-title { font-family:'Jua',sans-serif; font-size:1.1rem; color:#1a0e30; margin-bottom:10px; }
+.activity-desc { font-size:0.82rem; color:#3a2660; line-height:1.75; }
 .activity-tag {
+  display:inline-block; margin-top:14px; padding:4px 14px;
+  border-radius:50px; font-size:0.7rem; font-weight:700;
+  letter-spacing:0.08em; background:rgba(200,168,240,0.28); color:#5b2d99;
+}
+
+/* ── 활동 갤러리 모달 ── */
+.gallery-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(10,8,22,0.85);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.gallery-overlay.open { opacity: 1; pointer-events: all; }
+
+.gallery-box {
+  background: #1e1630;
+  border: 1px solid rgba(200,168,240,0.3);
+  border-radius: 28px;
+  padding: 36px 32px 32px;
+  max-width: 700px; width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  transform: translateY(24px) scale(0.97);
+  transition: transform 0.35s cubic-bezier(0.34,1.3,0.64,1);
+  position: relative;
+}
+.gallery-overlay.open .gallery-box { transform: translateY(0) scale(1); }
+
+.gallery-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(200,168,240,0.12);
+  border: 1px solid rgba(200,168,240,0.25);
+  color: var(--lavender);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.gallery-close:hover { background: rgba(200,168,240,0.28); }
+
+.gallery-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.gallery-icon { font-size: 2rem; }
+.gallery-title {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+/* 사진 그리드 */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (min-width: 500px) {
+  .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.gallery-thumb {
+  aspect-ratio: 1;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(200,168,240,0.08);
+  border: 1px solid rgba(200,168,240,0.18);
+  cursor: pointer;
+  transition: transform 0.25s, border-color 0.25s;
+  position: relative;
+}
+.gallery-thumb:hover {
+  transform: scale(1.04);
+  border-color: rgba(200,168,240,0.5);
+}
+.gallery-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* 사진 없을 때 플레이스홀더 */
+.gallery-thumb.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: default;
+}
+.gallery-thumb.placeholder:hover { transform: none; border-color: rgba(200,168,240,0.18); }
+.gallery-thumb.placeholder span:first-child { font-size: 1.8rem; }
+.gallery-thumb.placeholder span:last-child {
+  font-size: 0.7rem;
+  color: rgba(200,168,240,0.4);
+  font-family: 'Jua', sans-serif;
+}
+
+/* 사진 크게 보기 */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: rgba(0,0,0,0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+  padding: 20px;
+}
+.lightbox.open { opacity: 1; pointer-events: all; }
+.lightbox img {
+  max-width: 100%; max-height: 90vh;
+  border-radius: 16px;
+  object-fit: contain;
+  box-shadow: 0 0 60px rgba(200,168,240,0.2);
+}
+.lightbox-close {
+  position: absolute;
+  top: 20px; right: 20px;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.2); }
+
+/* 활동 카드에 클릭 힌트 */
+.activity-card { cursor: pointer; }
+.activity-card::after {
+  content: '📷 사진 보기';
   display: inline-block;
-  margin-top: 14px; padding: 4px 14px;
-  border-radius: 50px; font-size: 0.7rem;
-  font-weight: 700; letter-spacing: 0.08em;
-  background: rgba(200,168,240,0.28); color: #5b2d99;
+  margin-top: 10px;
+  font-size: 0.7rem;
+  color: rgba(91,45,153,0.6);
+  font-family: 'Jua', sans-serif;
+  letter-spacing: 0.05em;
 }
 
 footer {
@@ -463,9 +747,78 @@ footer {
 
 <canvas id="bubble-canvas"></canvas>
 
+<!-- 공유 버튼 -->
+
 <button class="share-btn" id="share-btn">🔗 공유하기</button>
 
 <div class="toast" id="toast">✅ 링크가 복사되었어요! 주변 친구들에게 공유해주세요!</div>
+
+<!-- 햄버거 버튼 -->
+
+<button class="hamburger" id="hamburger" aria-label="메뉴">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- 드롭다운 메뉴 -->
+
+<nav class="nav-menu" id="nav-menu">
+  <a class="nav-item" id="nav-home" href="#">
+    <span class="nav-icon">🏠</span> 홈
+  </a>
+  <div class="nav-divider"></div>
+  <a class="nav-item" id="nav-faq" href="#">
+    <span class="nav-icon">❓</span> 자주 묻는 질문
+  </a>
+</nav>
+
+<!-- 활동 갤러리 모달 -->
+
+<div class="gallery-overlay" id="gallery-overlay">
+  <div class="gallery-box">
+    <button class="gallery-close" id="gallery-close">✕</button>
+    <div class="gallery-header">
+      <span class="gallery-icon" id="gallery-icon"></span>
+      <div class="gallery-title" id="gallery-title"></div>
+    </div>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+</div>
+
+<!-- 라이트박스 (사진 크게 보기) -->
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightbox-close">✕</button>
+  <img id="lightbox-img" src="" alt="" />
+</div>
+
+<!-- FAQ 오버레이 -->
+
+<div class="faq-overlay" id="faq-overlay">
+  <div class="faq-box">
+    <button class="faq-close" id="faq-close">✕</button>
+    <div class="faq-title">❓ 자주 묻는 질문</div>
+
+```
+<div class="faq-item">
+  <div class="faq-q">누구나 지원할 수 있나요? <span class="faq-arrow">▼</span></div>
+  <div class="faq-a">네! 과학에 관심이 있는 학생이라면 누구든 지원할 수 있습니다. 특별한 사전 지식이 없어도 괜찮아요.</div>
+</div>
+<div class="faq-item">
+  <div class="faq-q">동아리 부원은 몇명 뽑나요? <span class="faq-arrow">▼</span></div>
+  <div class="faq-a">1학년은 10명, 2학년은 3명 뽑을 예정입니다. 그 외 자세한 일정은 부장과 차장에게 문의해 주세요. </div>
+</div>
+<div class="faq-item">
+  <div class="faq-q">물리학·화학·생명과학 팀은 어떻게 나뉘나요? <span class="faq-arrow">▼</span></div>
+  <div class="faq-a">가입 시 희망 팀을 선택할 수 있으며, 언제든지 팀 변경이 가능합니다! 본인의 관심 분야를 적극적으로 어필해 주세요!</div>
+</div>
+<div class="faq-item">
+  <div class="faq-q">실험은 얼마나 자주 하나요? <span class="faq-arrow">▼</span></div>
+  <div class="faq-a">물리학 → 화학 → 생명과학 팀이 순서대로 매주 돌아가며 실험을 할 예정입니다. </div>
+</div>
+```
+
+  </div>
+</div>
 
 <!-- ════ HERO ════ -->
 
@@ -562,37 +915,37 @@ footer {
   <div class="section-label">Our Activities</div>
   <h2 class="section-title">뉴런의 활동들 🔬</h2>
   <div class="activity-grid">
-    <div class="activity-card">
+    <div class="activity-card" data-activity="physics" data-icon="⚡" data-title="물리학 실험">
       <span class="activity-icon">⚡</span>
       <div class="activity-title">물리학 실험</div>
       <div class="activity-desc">물리학! 다양한 역학적인 상황이나 전자기까지, 다른 부원들에게 실험을 직접 소개하고 함께 체험합니다.</div>
       <span class="activity-tag"># Physics</span>
     </div>
-    <div class="activity-card">
+    <div class="activity-card" data-activity="chemistry" data-icon="🧪" data-title="화학 실험 발표">
       <span class="activity-icon">🧪</span>
       <div class="activity-title">화학 실험 발표</div>
       <div class="activity-desc">화학! 산·염기 반응부터 흥미로운 화학 현상까지, 실험으로 직접 보여주고 체험하게 합니다.</div>
       <span class="activity-tag"># Chemistry</span>
     </div>
-    <div class="activity-card">
+    <div class="activity-card" data-activity="biology" data-icon="🧬" data-title="생명과학 실험">
       <span class="activity-icon">🧬</span>
       <div class="activity-title">생명과학 실험</div>
       <div class="activity-desc">생명과학! 세포 관찰, DNA 실험 등 생명의 신비를 실험을 통해 부원들과 함께 탐구합니다.</div>
       <span class="activity-tag"># Biology</span>
     </div>
-    <div class="activity-card">
+    <div class="activity-card" data-activity="mentor" data-icon="🤝" data-title="멘토-멘티 활동">
       <span class="activity-icon">🤝</span>
       <div class="activity-title">멘토-멘티 활동</div>
       <div class="activity-desc">선후배가 짝을 이뤄 과학 탐구 과목에 대해 심도있게 배울 수 있습니다. 선배의 경험이 후배에게, 후배의 새로운 시각이 선배에게 영감이 됩니다. 이로 인해 성적까지 오르니, 두마리 토끼를 한번에 잡는 꼴이죠!</div>
       <span class="activity-tag"># Mentor</span>
     </div>
-    <div class="activity-card">
+    <div class="activity-card" data-activity="debate" data-icon="🗣️" data-title="팀 대항 과학 토론">
       <span class="activity-icon">🗣️</span>
       <div class="activity-title">팀 대항 과학 토론</div>
       <div class="activity-desc">물리학 vs 화학 vs 생명과학! 각 팀이 자신의 분야를 대표해 과학적 주제로 열띤 토론을 펼칩니다. (*예정*)</div>
       <span class="activity-tag"># Debate</span>
     </div>
-    <div class="activity-card">
+    <div class="activity-card" data-activity="event" data-icon="🏫" data-title="학교 동아리 행사">
       <span class="activity-icon">🏫</span>
       <div class="activity-title">학교 동아리 행사</div>
       <div class="activity-desc">2학기 마지막 달, 한 해의 활동을 마무리하는 학교 동아리 행사에 참가해 뉴런 동아리에서 멋진 축제를 즐길 수 있습니다 :>.</div>
@@ -628,14 +981,144 @@ footer {
 </div>
 
 <footer>© 2026 과학실험 동아리 NewRun · NewRun Science Club</footer>
-
+//여기 부장이 열정페이로 부려먹어요.
 <script>
+/* ═══ ACTIVITY GALLERY ═══ */
+// 각 활동별 사진 목록 - 사진 보내주시면 여기에 경로 추가하면 돼요!
+const activityPhotos = {
+  physics:   [],
+  chemistry: ['photos/chemy1-1.jpeg', 'photos/chemy1-2.jpeg', 'photos/chemy1-3.jpeg'],
+  biology:   [],
+  mentor:    [],
+  debate:    [],
+  event:     [],
+};
+
+const galleryOverlay = document.getElementById('gallery-overlay');
+const galleryGrid    = document.getElementById('gallery-grid');
+const galleryTitle   = document.getElementById('gallery-title');
+const galleryIcon    = document.getElementById('gallery-icon');
+const lightbox       = document.getElementById('lightbox');
+const lightboxImg    = document.getElementById('lightbox-img');
+
+function openGallery(activityKey, icon, title) {
+  galleryTitle.textContent = title;
+  galleryIcon.textContent  = icon;
+
+  const photos = activityPhotos[activityKey] || [];
+  galleryGrid.innerHTML = '';
+
+  if (photos.length === 0) {
+    // 사진 없을 때: 플레이스홀더 3개
+    for (let i = 0; i < 3; i++) {
+      const div = document.createElement('div');
+      div.className = 'gallery-thumb placeholder';
+      div.innerHTML = `<span>📷</span><span>사진 준비중</span>`;
+      galleryGrid.appendChild(div);
+    }
+  } else {
+    photos.forEach(src => {
+      const div = document.createElement('div');
+      div.className = 'gallery-thumb';
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = title;
+      img.addEventListener('click', () => openLightbox(src));
+      div.appendChild(img);
+      galleryGrid.appendChild(div);
+    });
+  }
+
+  galleryOverlay.classList.add('open');
+}
+
+function closeGallery() {
+  galleryOverlay.classList.remove('open');
+}
+
+function openLightbox(src) {
+  lightboxImg.src = src;
+  lightbox.classList.add('open');
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  lightboxImg.src = '';
+}
+
+// 활동 카드 클릭
+document.querySelectorAll('.activity-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const key   = card.dataset.activity;
+    const icon  = card.dataset.icon;
+    const title = card.dataset.title;
+    openGallery(key, icon, title);
+  });
+});
+
+document.getElementById('gallery-close').addEventListener('click', closeGallery);
+galleryOverlay.addEventListener('click', (e) => {
+  if (e.target === galleryOverlay) closeGallery();
+});
+
+document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) closeLightbox();
+});
+
 /* ═══ SHARE BUTTON ═══ */
 document.getElementById('share-btn').addEventListener('click', () => {
   navigator.clipboard.writeText('new.newrun.o-r.kr').then(() => {
     const toast = document.getElementById('toast');
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 2500);
+  });
+});
+
+/* ═══ HAMBURGER ═══ */
+const hamburger = document.getElementById('hamburger');
+const navMenu   = document.getElementById('nav-menu');
+
+hamburger.addEventListener('click', (e) => {
+  e.stopPropagation();
+  hamburger.classList.toggle('open');
+  navMenu.classList.toggle('open');
+});
+
+document.addEventListener('click', () => {
+  hamburger.classList.remove('open');
+  navMenu.classList.remove('open');
+});
+
+document.getElementById('nav-home').addEventListener('click', (e) => {
+  e.preventDefault();
+  hamburger.classList.remove('open');
+  navMenu.classList.remove('open');
+  document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('nav-faq').addEventListener('click', (e) => {
+  e.preventDefault();
+  hamburger.classList.remove('open');
+  navMenu.classList.remove('open');
+  document.getElementById('faq-overlay').classList.add('open');
+});
+
+document.getElementById('faq-close').addEventListener('click', () => {
+  document.getElementById('faq-overlay').classList.remove('open');
+});
+document.getElementById('faq-overlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('faq-overlay')) {
+    document.getElementById('faq-overlay').classList.remove('open');
+  }
+});
+
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
   });
 });
 
@@ -692,8 +1175,8 @@ function drawBubble(b){
 /* ═══ LETTER ANIMATION ═══ */
 const line1Text = '과학실험';
 const line2Text = '동아리';
-const BASE  = 700;   // 첫 글자 시작 딜레이 (ms)
-const GAP   = 130;   // 글자 간격 (ms)
+const BASE  = 700;
+const GAP   = 130;
 
 function buildLine(id, text, offset){
   const el = document.getElementById(id);
@@ -712,7 +1195,6 @@ function buildLine(id, text, offset){
 buildLine('line1', line1Text, 0);
 buildLine('line2', line2Text, line1Text.length);
 
-// 뉴런 마지막 글자 후에 300ms 뒤 팝에하깅
 const totalChars = line1Text.length + line2Text.length;
 setTimeout(()=>{
   document.getElementById('neuron-word').classList.add('pop');
